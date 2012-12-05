@@ -1,0 +1,5 @@
+= codesake
+
+Generate this with
+    codesake rdoc
+After you have described your command line interface
