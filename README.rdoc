@@ -1,6 +1,0 @@
-= codesake
-
-Describe your project here
-
-:include:codesake.rdoc
-
