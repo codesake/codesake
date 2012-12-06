@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-@dummy_text = <<EOT
+dummy_text = <<EOT
 This is a text 
 This is a text 
 This is a text 
@@ -8,14 +8,14 @@ This is a text
 EOT
 
 class Test
-  include Codesake::FileUtils
+  include Codesake::Utils::Files
 end
 
-shared_examples_for Codesake::FileUtils do
+shared_examples_for Codesake::Utils::Files do
     before(:all) do
       @mock = Test.new
       File.open("test_utils.txt", "w") do |f|
-        f.write(@dummy_text)
+        f.puts(dummy_text)
       end
 
     end
@@ -29,8 +29,17 @@ shared_examples_for Codesake::FileUtils do
       @mock.should respond_to(:read_file)
     end
 
-    it "complains if we request to read a non existing file"
-    it "read an existing file"
+    it "complains if we request to read a non existing file" do
+      @mock.filename = "test"
+      @mock.read_file.should be_false
+      @mock.file_content.should be_empty
+    end
+
+    it "read an existing file" do
+      @mock.filename = "test_utils.txt"
+      @mock.read_file.should be_true
+      @mock.file_content.should_not be_empty
+    end
 
 
     it "has a loc method" do

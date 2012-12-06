@@ -1,4 +1,6 @@
 require "codesake/version"
 require "codesake/cli"
-require "codesake/file_utils"
+require "codesake/utils/files"
+require "codesake/utils/secrets"
+require "codesake/engine/text"
 

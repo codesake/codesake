@@ -26,43 +26,40 @@ Praesent risus erat, iaculis ac, dapibus sed, imperdiet ac, erat. Nullam sed
 ipsum. Phasellus non dolor. Donec ut elit.
 EOS
 
-describe "codesake text file scan engine" do
+describe Codesake::Engine::Text do
   before(:all) do
     File.open("lorem.txt", "w") do |f|
       f.write(lorem_ipsum)
     end
+    @text = Codesake::Engine::Text.new("lorem.txt")
   end
   after(:all) do
     File.delete("lorem.txt") if File.exists?("lorem.txt")
   end
-  it_behaves_like Codesake::FileUtils
 
-  it "takes a filename as input"
+  it_behaves_like Codesake::Utils::Files
+  it_behaves_like Codesake::Utils::Secrets
+
+  it "takes a filename as input" do
+    @text.filename.should_not be_nil
+    @text.filename.should_not be_empty
+  end
 
   context "has a is_txt? method" do
-    it "and this method is public"
-    it "returns false if file extension is not .txt"
+    it "and this method is public" do
+      @text.should respond_to(:is_txt?)
+    end
+    it "returns false if file extension is not .txt" do
+      @text.filename="text"
+      @text.is_txt?.should  be_false
+    end
+    it "returns true if file extension is .txt" do
+      @text.filename="text.txt"
+      @text.is_txt?.should  be_true
+    end
   end
 
-  context "has a list of reserved words containing" do
-    it "password"
-    it "username"
-    it "login"
-    it "fixme"
-    it "xxx"
-    it "fix"
-  end
-
-  context "has a find_secrets method" do
-    it "and this method is public"
-    it "returns true if 'Donec' is a reserved word in the example source"
-    it "returns true if 'donec' is a reserved word in the example source" 
-    it "returns true if 'eRaT' is a reserved word in the example source" 
-    it "returns false if 'password' is a reserved word in the example source"
-    it "returns false if 'ccv' is a reserved word in the example source"
-    it "returns false if 'login' is a reserved word in the example source"
-  end
-
+  
 
   # XXX: The following three matchers must be present to all engines in order to
   # check if the class include the statistics module.
