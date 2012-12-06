@@ -1,5 +1,4 @@
 require "codesake/version"
+require "codesake/cli"
+require "codesake/file_utils"
 
-module Codesake
-  # Your code goes here...
-end

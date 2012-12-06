@@ -1,6 +1,11 @@
-# Codesake
+# codesake
 
-TODO: Write a gem description
+codesake is a security source code scanning engine. It's used as core engine in
+[codesake.com](http://codesake.cokm) application security portal with a closed
+knowledge base inside the web application itself.
+
+codesake gem can be used in a security source code review to scan sources with
+regular expressions in order to detect insecure software patterns.
 
 ## Installation
 
