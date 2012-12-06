@@ -2,6 +2,7 @@ module Codesake
   module Engine
     class Text
       include Codesake::Utils::Files
+      include Codesake::Utils::Secrets
 
       def initialize(filename)
         @filename = filename

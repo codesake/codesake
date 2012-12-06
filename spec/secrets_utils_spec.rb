@@ -14,7 +14,7 @@ end
 
 
 shared_examples_for Codesake::Utils::Secrets do
-context "has a list of reserved words containing" do
+  context "has a list of reserved words containing" do
     it "password"
     it "username"
     it "login"
