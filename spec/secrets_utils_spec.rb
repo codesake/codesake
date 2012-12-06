@@ -9,13 +9,19 @@ This is a text
 EOT
 
 class Test
-  include Codesake::Utils::Files
+  include Codesake::Utils::Secrets
 end
 
 
 shared_examples_for Codesake::Utils::Secrets do
+  before(:all) do
+    @mock = Test.new
+  end
+
   context "has a list of reserved words containing" do
-    it "password"
+    it "password" do
+      @mock.sensitive_words.include?("password").should be_true
+    end
     it "username"
     it "login"
     it "fixme"
