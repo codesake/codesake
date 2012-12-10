@@ -15,7 +15,7 @@ describe "codesake command line interface" do
   it "understands --verbose flag"
 
   it "must have at least an argument"
-  it "the argument should be either a fire or a directory"
+  it "the argument should be either a file or a directory"
   it "must produce a non nil option Hash"
 
 
