@@ -31,10 +31,32 @@ module Codesake
 
 
         rest = opts.parse(command_line)
-        ret[:target] = rest if (! ret[:help] ) and ( ! ret[:version]) and (! rest.empty?)
+
+        ret[:target] = [] 
+        ret[:target] = build_target_list(rest[0].split(" ")) if expect_targets?(ret) and (! rest.empty?) and (! rest[0].nil?)
       rescue OptionParser::InvalidOption => e
         ret={:error=>true, :message=>e.message}
       end
+      ret
+    end
+
+
+    def is_good_target?(target)
+      (!Dir.glob(target).empty?) or File.exists?(target) or File.directory?(target)
+    end
+
+    private
+    def expect_targets?(ret)
+      (! ret[:help] ) and ( ! ret[:version]) 
+    end
+
+   
+    def build_target_list(target_list)
+      ret = []
+      target_list.each do |target|
+        ret << {:target=>target, :valid=>is_good_target?(target)} 
+      end
+
       ret
     end
 
