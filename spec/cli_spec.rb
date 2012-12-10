@@ -11,36 +11,37 @@ describe "codesake command line interface" do
   it "returns an empty has if no command line is given" do
     @cli.parse(nil).should    be_empty
     @cli.parse("").should     be_empty
-    @cli.parse(" ").should    be_empty
-    @cli.parse("  ").should   be_empty
   end
 
   it "understands --help flag" do
-    @cli.parse("-h").should ==  {:help=>true, :target=>[]}
-    @cli.parse("--help").should ==  {:help=>true, :target=>[]}
+    @cli.parse("-h").should ==  {:help=>true}
+    @cli.parse("--help").should ==  {:help=>true}
   end 
   it "undestands malformed flag" do 
     @cli.parse("-help").should == {:error=>true, :message=>"invalid option: -elp"}
   end
 
   it "understands --version flag" do
-    @cli.parse("--version").should == {:version=>true, :target=>[]}
+    @cli.parse("--version").should == {:version=>true}
   end
   it "understands --output flag" do
-    @cli.parse("-o file").should  ==  {:output=>:file, :target=>[]}
-    @cli.parse("-o json").should  ==  {:output=>:json, :target=>[]}
-    @cli.parse("-o db").should    ==  {:output=>:db, :target=>[]}
+    @cli.parse("-o file").should  ==  {:output=>:file}
+    @cli.parse("-o json").should  ==  {:output=>:json}
+    @cli.parse("-o db").should    ==  {:output=>:db}
 
   end
   it "understands --verbose flag" do
-    @cli.parse("--verbose").should  == {:verbose=>true, :target=>[]}
-    @cli.parse("-V").should         == {:verbose=>true, :target=>[]}
+    @cli.parse("--verbose").should  == {:verbose=>true}
+    @cli.parse("-V").should         == {:verbose=>true}
   end
 
   it "saves targets" do
-    @cli.parse("file1").should        == {:target=>[{:target=>"file1", :valid=>false}]}
-    @cli.parse("file1 file2").should  == {:target=>[{:target=>"file1", :valid=>false}, {:target=>"file2", :valid=>false}]}
-    @cli.parse("Gemfile").should      == {:target=>[{:target=>"Gemfile", :valid=>true}]}
+    @cli.parse("file1")
+    @cli.targets.should        == [{:target=>"file1", :valid=>false}]
+    @cli.parse("file1 file2")
+    @cli.targets.should  == [{:target=>"file1", :valid=>false}, {:target=>"file2", :valid=>false}]
+    @cli.parse("Gemfile")
+    @cli.targets.should      == [{:target=>"Gemfile", :valid=>true}]
   end
 
   it "the target should be either a file or a directory" do

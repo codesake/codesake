@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+# encoding: UTF-8 
+
+require 'codesake'
+require 'rainbow'
+
+trap("INT") { puts '['+'INTERRUPTED'.color(:red)+']'; exit -1 }
+
+puts "codesake v#{Codesake::VERSION} - (C) 2012 - paolo@armoredcode.com".color(:white)
+
+cli = Codesake::Cli.new
+
+options=cli.parse(ARGV)
+puts "codesake: #{cli.error_message}".color(:red) if cli.has_errors?

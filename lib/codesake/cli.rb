@@ -3,41 +3,43 @@ require 'trimmy'
 
 module Codesake
   class Cli
+    attr_reader :options
+    attr_reader :targets
     
     def parse(command_line)
-      ret = {}
+      @options = {}
 
-      return {} if (command_line.nil?) or (command_line.trim.empty?)
+      return {} if (command_line.nil?) or (command_line.send(:empty?))
 
       begin
         opts=OptionParser.new
         opts.on("-h", "--help") do 
-          ret[:help] = true 
+          @options[:help] = true 
         end
 
         opts.on("-v", "--version") do
-          ret[:version] = true
+          @options[:version] = true
         end
 
         opts.on("-V", "--verbose") do
-          ret[:verbose] = true
+          @options[:verbose] = true
         end
 
         opts.on("-o VAL", "--output", "Write output to file, to json string or to db usin SQLite3") do |val|
-          ret[:output]=:screen
+          @options[:output]=:screen
           val=val.trim
-          ret[:output]=val.to_sym if (val.to_sym == :file) or (val.to_sym == :json) or (val.to_sym == :db)
+          @options[:output]=val.to_sym if (val.to_sym == :file) or (val.to_sym == :json) or (val.to_sym == :db)
         end
 
 
         rest = opts.parse(command_line)
 
-        ret[:target] = [] 
-        ret[:target] = build_target_list(rest[0].split(" ")) if expect_targets?(ret) and (! rest.empty?) and (! rest[0].nil?)
+        @targets = [] 
+        @targets = build_target_list(rest[0].split(" ")) if expect_targets? and (! rest.empty?) and (! rest[0].nil?)
       rescue OptionParser::InvalidOption => e
-        ret={:error=>true, :message=>e.message}
+        @options={:error=>true, :message=>e.message}
       end
-      ret
+      @options
     end
 
 
@@ -45,9 +47,18 @@ module Codesake
       (!Dir.glob(target).empty?) or File.exists?(target) or File.directory?(target)
     end
 
+    def has_errors?
+      (@options[:error])
+    end
+
+    def error_message
+      @options[:message] if has_errors?
+    end
+
+
     private
-    def expect_targets?(ret)
-      (! ret[:help] ) and ( ! ret[:version]) 
+    def expect_targets?
+      (! @options[:help] ) and ( ! @options[:version]) 
     end
 
    
