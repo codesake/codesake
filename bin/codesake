@@ -12,3 +12,6 @@ cli = Codesake::Cli.new
 
 options=cli.parse(ARGV)
 puts "codesake: #{cli.error_message}".color(:red) if cli.has_errors?
+cli.targets.each do |target|
+  puts "process #{target[:target]}" if target[:valid]
+end
