@@ -4,7 +4,7 @@ describe "codesake command line interface" do
   before(:all) do
     @cli = Codesake::Cli.new
   end
-  it "has a scan method" 
+  it "has a parse method" 
   # do
   #   @cli.should respond_to(:scan)
   # end
