@@ -1,4 +1,2 @@
-Given /^an empty command line$/ do
-  # ARGV = []
-end
-
+# Given /^an empty command line$/ do
+# end

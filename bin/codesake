@@ -11,7 +11,7 @@ puts "codesake v#{Codesake::VERSION} - (C) 2012 - paolo@armoredcode.com".color(:
 cli = Codesake::Cli.new
 
 options=cli.parse(ARGV)
-puts "codesake: #{cli.error_message}".color(:red) if cli.has_errors?
+abort("codesake: #{cli.error_message}".color(:red)) if cli.has_errors?
 abort("codesake: missing targets".color(:red)) if cli.targets.nil?
 
 cli.targets.each do |target|
