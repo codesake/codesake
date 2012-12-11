@@ -3,6 +3,6 @@ Feature: codesake complains if targets are missing
 
   Scenario: codesake complains if targets are missing
     Given an empty command line
-    When I successfully run `codesake`
+    When I run `bundle exec codesake`
     Then the stderr should contain "missing targets"
 
