@@ -9,3 +9,7 @@ Feature: codesake process a plain text file
     Given the file "/tmp/test.txt" doesn't exist
     When I successfully run `bundle exec codesake /tmp/test.txt`
     Then the stderr should contain "can't find /tmp/test.txt"
+  Scenario: the file exists and codesake says it's going to process it
+    Given the text file "/tmp/existing.txt" does exist
+    When I successfully run `bundle exec codesake /tmp/existing.txt`
+    Then the stdout should contain "processing /tmp/existing.txt"

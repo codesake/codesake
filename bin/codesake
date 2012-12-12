@@ -15,6 +15,7 @@ abort("codesake: #{cli.error_message}".color(:red)) if cli.has_errors?
 abort("codesake: missing targets".color(:red)) if cli.targets.nil?
 
 cli.targets.each do |target|
-  puts "process #{target[:target]}" if target[:valid]
+  puts "processing #{target[:target]}" if target[:valid]
+  $stderr.puts "can't find #{target[:target]}".color(:red) if ! target[:valid]
 end
 
