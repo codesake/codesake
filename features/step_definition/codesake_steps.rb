@@ -21,7 +21,7 @@ Maecenas eleifend mi in urna. Praesent et lectus ac nibh luctus viverra. In vel
 dolor sed nibh sollicitudin tincidunt. Ut consequat nisi sit amet nibh. Nunc mi
 tortor, tristique sit amet, rhoncus porta, malesuada elementum, nisi. Integer
 vitae enim quis risus aliquet gravida. Curabitur vel lorem vel erat dapibus
-lobortis. Donec secrets dignissim tellus at arcu. Quisque molestie pulvinar sem.
+lobortis. Donec secret dignissim tellus at arcu. Quisque molestie pulvinar sem.
 
 Nulla magna neque, ullamcorper tempus, luctus eget, malesuada ut, velit. Morbi
 felis. Praesent in purus at ipsum cursus posuere. Morbi bibendum facilisis
