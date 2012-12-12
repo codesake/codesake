@@ -47,15 +47,13 @@ describe Codesake::Engine::Text do
 
   context "has a is_txt? method" do
     it "and this method is public" do
-      @text.should respond_to(:is_txt?)
+      Codesake::Engine::Text.should respond_to(:is_txt?)
     end
     it "returns false if file extension is not .txt" do
-      @text.filename="text"
-      @text.is_txt?.should  be_false
+      Codesake::Engine::Text.is_txt?("text.jsp").should   be_false
     end
     it "returns true if file extension is .txt" do
-      @text.filename="text.txt"
-      @text.is_txt?.should  be_true
+      Codesake::Engine::Text.is_txt?("text.txt").should   be_true
     end
   end
 

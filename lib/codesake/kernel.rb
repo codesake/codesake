@@ -27,7 +27,7 @@ module Codesake
 
     def detect(filename)
       return NONE if filename.nil? or filename.empty?
-      return TEXT if (File.extname(filename).empty? or File.extname(filename) == ".txt" or File.extname(filename) == ".conf" or File.extname(filename) == ".rc" or File.extname(filename) == ".bak" or File.extname(filename) == ".old" )
+      return TEXT if Codesake::Engine::Text.is_txt?(filename)
       return JSP if (File.extname(filename) == ".jsp")
 
 
