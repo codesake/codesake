@@ -39,6 +39,7 @@ describe Codesake::Engine::Text do
 
   it_behaves_like Codesake::Utils::Files
   it_behaves_like Codesake::Utils::Secrets
+  it_behaves_like Codesake::Engine::Core
 
   it "takes a filename as input" do
     @text.filename.should_not be_nil
