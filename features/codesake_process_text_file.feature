@@ -18,6 +18,6 @@ Feature: codesake process a plain text file
   Scenario: the file exists and codesake says it contains a secrets word
     Given the text file "/tmp/secrets.txt" does exist
     When I successfully run `bundle exec codesake /tmp/secrets.txt`
-    Then the stdout should contain "found "password" keyword (/tmp/secrets.txt@5)"
-    And the stdout should contain "found "secret" keyword (/tmp/secrets.txt@17)"
-    And the stdout should contain "found "password" keyword (/tmp/secrets.txt@21)"
+    Then the stdout should contain "reserved keyword found: "password" (/tmp/secrets.txt@5)"
+    And the stdout should contain "reserved keyword found: "secret" (/tmp/secrets.txt@17)"
+    And the stdout should contain "reserved keyword found: "password" (/tmp/secrets.txt@21)"

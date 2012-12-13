@@ -5,6 +5,10 @@ module Codesake
       attr_accessor :secrets
 
       def initialize
+        load_secrets
+      end
+
+      def load_secrets
         @secrets = DEFAULT_SECRETS
       end
 
@@ -21,7 +25,7 @@ module Codesake
 
         ret = []
 
-        self.file_content.each_with_index do |l, i|
+        @file_content.each_with_index do |l, i|
           l = l.unpack("C*").pack("U*")
           l.split.each do |tok|
             ret << {:line=> i+1, :matcher=>tok, :source_line=>l} if @secrets.include?(tok.downcase)

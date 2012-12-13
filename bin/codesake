@@ -19,6 +19,10 @@ cli.targets.each do |target|
   puts "processing #{target[:target]}" if target[:valid]
   $stderr.puts "can't find #{target[:target]}".color(:red) if ! target[:valid]
 
-  kernel.choose_engine(target)
+  engine = kernel.choose_engine(target[:target])
+  results = engine.analyse
+  results.each do |res|
+    $stdout.puts "#{res}"
+  end
 end
 
