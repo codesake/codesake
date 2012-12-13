@@ -9,6 +9,7 @@ trap("INT") { puts '['+'INTERRUPTED'.color(:red)+']'; exit -1 }
 puts "codesake v#{Codesake::VERSION} - (C) 2012 - paolo@armoredcode.com".color(:white)
 
 cli = Codesake::Cli.new
+kernel = Codesake::Kernel.instance
 
 options=cli.parse(ARGV)
 abort("codesake: #{cli.error_message}".color(:red)) if cli.has_errors?
@@ -17,5 +18,7 @@ abort("codesake: missing targets".color(:red)) if cli.targets.nil?
 cli.targets.each do |target|
   puts "processing #{target[:target]}" if target[:valid]
   $stderr.puts "can't find #{target[:target]}".color(:red) if ! target[:valid]
+
+  kernel.choose_engine(target)
 end
 
