@@ -27,6 +27,7 @@ describe Codesake::Kernel do
   # TODO: I plan to add specialized engines for those languages before
   # reaching 1.0 - 20121211
   #
+
   it "detects a java file from its extension" 
   it "detects a c file from its extension" 
   it "detects a shell script from its extension" 
@@ -42,6 +43,10 @@ describe Codesake::Kernel do
 
   it "chooses Codesake::Engine::Text for a text file" do
     @kernel.choose_engine("a_text_file").class.should   == Codesake::Engine::Text
+  end
+
+  it "chooses Codesake::Engine::Jsp for a jsp file" do
+    @kernel.choose_engine("test.jsp").class.should  == Codesake::Engine::Jsp
   end
 
   it "chooses Codesake::Engine::Java for a java file"

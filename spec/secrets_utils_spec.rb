@@ -61,15 +61,15 @@ shared_examples_for Codesake::Utils::Secrets do
   end
   context "has a find method" do
     it "that is public" do
-      @mock.should  respond_to(:scan)
+      @mock.should  respond_to(:find_reserved_keywords)
     end
     it "returns an empty array if 'secret' is not a reserved word in the example source" do
       @mock.secrets=["noodle", "compain", "foo"]
-      @mock.scan.should be_empty
+      @mock.find_reserved_keywords.should be_empty
     end
     it "returns true if 'secret' is a reserved word in the example source" do
       @mock.secrets=["secret"]
-      @mock.scan.should == [{:line=>5, :matcher=>"secret", :source_line=>"secret\n"}]
+      @mock.find_reserved_keywords.should == [{:line=>5, :matcher=>"secret"}]
     end
 
 

@@ -21,6 +21,8 @@ module Codesake
         engine = Codesake::Engine::Text.new(filename)
       when NONE
         engine = Codesake::Engine::Generic.new(filename)
+      when JSP
+        engine = Codesake::Engine::Jsp.new(filename)
       end
       engine
     end

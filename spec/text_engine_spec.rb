@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 lorem_ipsum = <<EOS
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh
+Lorem ipsum dolor sit amet, secret consectetuer adipiscing elit, sed diam nonummy nibh
 euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim
-ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl
+ad minim veniam, quis nostrud secret exerci tation ullamcorper suscipit lobortis nisl
 ut aliquip ex ea commodo consequat. Duis splople autem vel eum iriure dolor in
-hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu
+hendrerit in vulputate velit esse secret molestie consequat, vel illum dolore eu
 feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui
-blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla
+blandit praesent luptatum zzril password delenit augue duis dolore te feugait nulla
 facilisi.
 
 Pellentesque at dolor non lectus sagittis semper. Donec quis mi. Duis eget
@@ -58,9 +58,15 @@ describe Codesake::Engine::Text do
     end
   end
 
-  
+  it "analyse the file for reserved words" do
 
-  # XXX: The following three matchers must be present to all engines in order to
-  # check if the class include the statistics module.
-  
+    # secret @1, 3, 5
+    # password @7
+    expected_result = [{:line=>1, :matcher=>"secret"}, {:line=>3, :matcher=>"secret"}, {:line=>5, :matcher=>"secret"}, {:line=>7, :matcher=>"password"}] 
+    @text.analyse.should_not  be_nil
+    @text.reserved_keywords.size.should == 4
+    @text.reserved_keywords.should == expected_result
+
+  end
+   
 end

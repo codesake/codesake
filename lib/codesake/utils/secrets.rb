@@ -3,6 +3,7 @@ module Codesake
     module Secrets
       DEFAULT_SECRETS = ["secret", "password", "username", "login", "xxx", "fixme", "fix", "todo", "passwd"]
       attr_accessor :secrets
+      attr_accessor :reserved_keywords
 
       def initialize
         load_secrets
@@ -21,14 +22,15 @@ module Codesake
         @secrets.include?(word)
       end
 
-      def scan
+      def find_reserved_keywords
 
         ret = []
 
         @file_content.each_with_index do |l, i|
           l = l.unpack("C*").pack("U*")
           l.split.each do |tok|
-            ret << {:line=> i+1, :matcher=>tok, :source_line=>l} if @secrets.include?(tok.downcase)
+            # ret << {:line=> i+1, :matcher=>tok, :source_line=>l} if @secrets.include?(tok.downcase)
+            ret << {:line=> i+1, :matcher=>tok } if @secrets.include?(tok.downcase)
           end
         end
 
