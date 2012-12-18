@@ -80,5 +80,11 @@ describe Codesake::Engine::Jsp do
     @jsp.imports.should == expected_result
   end
 
+  it "analyses a jsp file for attack entrypoints" do
+    expexted_result = [{:line=>32, :param=>"message", :var=>"message"}]
+    @jsp.attack_entrypoints == expexted_result
+
+  end
+
 
 end

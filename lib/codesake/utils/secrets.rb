@@ -31,6 +31,7 @@ module Codesake
           l.split.each do |tok|
             # ret << {:line=> i+1, :matcher=>tok, :source_line=>l} if @secrets.include?(tok.downcase)
             ret << {:line=> i+1, :matcher=>tok } if @secrets.include?(tok.downcase)
+
           end
         end
 

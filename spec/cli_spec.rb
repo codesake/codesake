@@ -55,5 +55,9 @@ describe "codesake command line interface" do
     @cli.parse("-j drift").should_not   be_nil
   end
 
+  it "understand --keys flag" do
+    ret = {:keywords => ["a","b","c"]}
+    @cli.parse("-k a,b,c").should == ret
+  end
 
 end

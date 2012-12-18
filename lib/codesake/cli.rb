@@ -25,6 +25,10 @@ module Codesake
           @options[:verbose] = true
         end
 
+        opts.on("-k VAL", "--add-keys", "Add the command separated list of strings as reserved keywords") do |val|
+          @options[:keywords] = val.trim.split(",")
+        end
+
         opts.on("-o VAL", "--output", "Write output to file, to json string or to db usin SQLite3") do |val|
           @options[:output]=:screen
           val=val.trim

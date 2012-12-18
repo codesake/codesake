@@ -20,6 +20,13 @@ cli.targets.each do |target|
   $stderr.puts "can't find #{target[:target]}".color(:red) if ! target[:valid]
 
   engine = kernel.choose_engine(target[:target])
+  if ! options[:keywords].nil?
+    options[:keywords].each do |key|
+      engine.add(key)
+    end
+  end
+
+
   results = engine.analyse
   results.each do |res|
     $stdout.puts "#{res}"
