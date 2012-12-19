@@ -82,9 +82,24 @@ describe Codesake::Engine::Jsp do
 
   it "analyses a jsp file for attack entrypoints" do
     expexted_result = [{:line=>32, :param=>"message", :var=>"message"}]
-    @jsp.attack_entrypoints == expexted_result
-
+    @jsp.attack_entrypoints.should == expexted_result
   end
+  it "analyses a jsp file for reflected variables" do
+    expexted_result = [{:line=>8, :var=>"request.getContextPath()", :false_positive=>true}, 
+      {:line=>24, :var=>"request.getContextPath()", :false_positive=>true},
+      {:line=>25, :var=>"request.getContextPath()", :false_positive=>true},
+      {:line=>26, :var=>"request.getContextPath()", :false_positive=>true},
+      {:line=>27, :var=>"request.getContextPath()", :false_positive=>true},
+      {:line=>28, :var=>"request.getContextPath()", :false_positive=>true},
+      {:line=>36, :var=>"message", :false_positive=>false},
+      {:line=>44, :var=>"request.getContextPath()", :false_positive=>true},
+      {:line=>46, :var=>"request.getLocalName()", :false_positive=>true}
+    ]
+    @jsp.reflected_xss.should == expexted_result
+  end
+
+
+ 
 
 
 end

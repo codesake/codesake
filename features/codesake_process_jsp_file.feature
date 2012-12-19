@@ -43,4 +43,39 @@ Feature: codesake process a jsp page
     When I successfully run `bundle exec codesake /tmp/existing.jsp`
     Then the stdout should contain "attack entrypoint found: parameter \"message\" stored in \"message\" (/tmp/existing.jsp@32)"
 
+  Scenario: codesake processing the file finds potential reflected xss and it shows also suspiscious results
+    Given the jsp file "/tmp/existing.jsp" does exist
+    When I successfully run `bundle exec codesake /tmp/existing.jsp --all-vulnerabilities` 
+    Then the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@8)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@24)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@25)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@26)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@27)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@28)"
+    And the stdout should contain "reflected xss found: "message" (/tmp/existing.jsp@36)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@44)"
+    And the stdout should contain "suspicious reflected xss found: "request.getLocalName()" (/tmp/existing.jsp@46)"
+
+  Scenario: codesake processing the file finds potential reflected xss and it shows also suspiscious results (as default behaviour)
+    Given the jsp file "/tmp/existing.jsp" does exist
+    When I successfully run `bundle exec codesake /tmp/existing.jsp` 
+    Then the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@8)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@24)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@25)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@26)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@27)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@28)"
+    And the stdout should contain "reflected xss found: "message" (/tmp/existing.jsp@36)"
+    And the stdout should contain "suspicious reflected xss found: "request.getContextPath()" (/tmp/existing.jsp@44)"
+    And the stdout should contain "suspicious reflected xss found: "request.getLocalName()" (/tmp/existing.jsp@46)"
+
+
+
+  Scenario: codesake processing the file finds potential reflected xss and it shows only confirmed results
+    Given the jsp file "/tmp/existing.jsp" does exist
+    When I successfully run `bundle exec codesake /tmp/existing.jsp --confirmed-vulnerabilities` 
+    Then the stdout should contain "reflected xss found: "message" (/tmp/existing.jsp@36)"
+
+
+
  

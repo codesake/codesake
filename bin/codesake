@@ -19,7 +19,7 @@ cli.targets.each do |target|
   puts "processing #{target[:target]}" if target[:valid]
   $stderr.puts "can't find #{target[:target]}".color(:red) if ! target[:valid]
 
-  engine = kernel.choose_engine(target[:target])
+  engine = kernel.choose_engine(target[:target], options)
   if ! options[:keywords].nil?
     options[:keywords].each do |key|
       engine.add(key)

@@ -9,7 +9,7 @@ module Codesake
     def parse(command_line)
       @options = {}
 
-      return {} if (command_line.nil?) or (command_line.send(:empty?))
+      return {:vulnerabilities=>:all} if (command_line.nil?) or (command_line.send(:empty?))
 
       begin
         opts=OptionParser.new
@@ -34,12 +34,19 @@ module Codesake
           val=val.trim
           @options[:output]=val.to_sym if (val.to_sym == :file) or (val.to_sym == :json) or (val.to_sym == :db)
         end
+        opts.on("-C", "--confirmed-vulnerabilities") do
+          @options[:vulnerabilities] = :confirmed
+        end
+        opts.on("-A", "--all-vulnerabilities") do
+          @options[:vulnerabilities] = :all
+        end
 
 
         rest = opts.parse(command_line)
 
         @targets = [] 
         @targets = build_target_list(rest[0].split(" ")) if expect_targets? and (! rest.empty?) and (! rest[0].nil?)
+        @options[:vulnerabilities] = :all if @options[:vulnerabilities].nil?
       rescue OptionParser::InvalidOption => e
         @options={:error=>true, :message=>e.message}
       end

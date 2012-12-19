@@ -7,11 +7,16 @@ module Codesake
       include Codesake::Utils::Secrets
       include Codesake::Engine::Core
 
+      FALSE_POSITIVES = ["request.getContextPath()", "request.getLocalName()", "request.getLocalPort()"]
+
+
       attr_reader :imports
       attr_reader :attack_entrypoints
+      attr_reader :reflected_xss
 
-      def initialize(filename)
+      def initialize(filename, options)
         @filename = filename
+        @options = options
 
         read_file
         load_secrets
@@ -22,6 +27,7 @@ module Codesake
         @reserved_keywords  = find_reserved_keywords
         @imports            = find_imports
         @attack_entrypoints = find_attack_entrypoints
+        @reflected_xss      = find_reflected_xss
 
         @reserved_keywords.each do |secret|
           ret << "reserved keyword found: \"#{secret[:matcher]}\" (#{@filename}@#{secret[:line]})"
@@ -32,6 +38,10 @@ module Codesake
 
         @attack_entrypoints.each do |entry|
           ret << "attack entrypoint found: parameter \"#{entry[:param]}\" stored in \"#{entry[:var]}\" (#{@filename}@#{entry[:line]})"
+        end
+        @reflected_xss.each do |entry|
+          ret << "suspicious reflected xss found: \"#{entry[:var]}\" (#{@filename}@#{entry[:line]})\"" if entry[:false_positive] and @options[:vulnerabilities] == :all
+          ret << "reflected xss found: \"#{entry[:var]}\" (#{@filename}@#{entry[:line]})\"" if ! entry[:false_positive] 
         end
 
          
@@ -54,6 +64,35 @@ module Codesake
         end
 
         ret
+      end
+
+
+      def find_reflected_xss
+        ret = []
+        @file_content.each_with_index do |l, i|
+          # <%=avar%> #=> /<%=(\w+)%>/.match(a)[1] = avar
+          l = l.unpack("C*").pack("U*")
+          m = /<%=(.*?)%>/.match(l)
+          ret << {:line => i+1, :var=> m[1].trim, :false_positive=>Codesake::Engine::Jsp.is_false_positive?(m[1].trim)} unless m.nil?
+
+          m = /out\.println\((.*?)\)/.match(l)
+          ret << {:line => i+1, :var=> m[1].trim, :false_positive=>Codesake::Engine::Jsp.is_false_positive?(m[1].trim)} unless m.nil?
+
+          m = /out\.print\((.*?)\)/.match(l)
+          ret << {:line => i+1, :var=> m[1].trim, :false_positive=>Codesake::Engine::Jsp.is_false_positive?(m[1].trim)} unless m.nil?
+
+          m = /out\.write\((.*?)\)/.match(l)
+          ret << {:line => i+1, :var=> m[1].trim, :false_positive=>Codesake::Engine::Jsp.is_false_positive?(m[1].trim)} unless m.nil?
+
+          m = /out\.writeln\((.*?)\)/.match(l)
+          ret << {:line => i+1, :var=> m[1].trim, :false_positive=>Codesake::Engine::Jsp.is_false_positive?(m[1].trim)} unless m.nil?
+        end
+
+        ret
+      end
+
+      def self.is_false_positive?(var)
+        FALSE_POSITIVES.include?(var)
       end
 
 

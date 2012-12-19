@@ -9,30 +9,30 @@ describe "codesake command line interface" do
   end
 
   it "returns an empty has if no command line is given" do
-    @cli.parse(nil).should    be_empty
-    @cli.parse("").should     be_empty
+    @cli.parse(nil).should    == {:vulnerabilities=>:all}
+    @cli.parse("").should     == {:vulnerabilities=>:all}
   end
 
   it "understands --help flag" do
-    @cli.parse("-h").should ==  {:help=>true}
-    @cli.parse("--help").should ==  {:help=>true}
+    @cli.parse("-h").should ==  {:help=>true, :vulnerabilities=>:all}
+    @cli.parse("--help").should ==  {:help=>true, :vulnerabilities=>:all}
   end 
   it "undestands malformed flag" do 
     @cli.parse("-help").should == {:error=>true, :message=>"invalid option: -elp"}
   end
 
   it "understands --version flag" do
-    @cli.parse("--version").should == {:version=>true}
+    @cli.parse("--version").should == {:version=>true, :vulnerabilities=>:all}
   end
   it "understands --output flag" do
-    @cli.parse("-o file").should  ==  {:output=>:file}
-    @cli.parse("-o json").should  ==  {:output=>:json}
-    @cli.parse("-o db").should    ==  {:output=>:db}
+    @cli.parse("-o file").should  ==  {:output=>:file, :vulnerabilities=>:all}
+    @cli.parse("-o json").should  ==  {:output=>:json, :vulnerabilities=>:all}
+    @cli.parse("-o db").should    ==  {:output=>:db, :vulnerabilities=>:all}
 
   end
   it "understands --verbose flag" do
-    @cli.parse("--verbose").should  == {:verbose=>true}
-    @cli.parse("-V").should         == {:verbose=>true}
+    @cli.parse("--verbose").should  == {:verbose=>true, :vulnerabilities=>:all}
+    @cli.parse("-V").should         == {:verbose=>true, :vulnerabilities=>:all}
   end
 
   it "saves targets" do
@@ -56,8 +56,17 @@ describe "codesake command line interface" do
   end
 
   it "understand --keys flag" do
-    ret = {:keywords => ["a","b","c"]}
+    ret = {:keywords => ["a","b","c"], :vulnerabilities=>:all}
     @cli.parse("-k a,b,c").should == ret
+  end
+
+  it "understand --all-vulnerabilities" do
+    ret = {:vulnerabilities=>:all}
+    @cli.parse("-A").should == ret
+  end
+  it "understand --confirmed-vulnerabilities" do
+    ret = {:vulnerabilities=>:confirmed}
+    @cli.parse("-C").should == ret
   end
 
 end

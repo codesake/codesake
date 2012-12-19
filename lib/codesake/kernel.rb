@@ -11,7 +11,7 @@ module Codesake
     JSP     = 2
     UNKNOWN = -1
 
-    def choose_engine(filename)
+    def choose_engine(filename, options)
 
 
       engine = nil
@@ -22,7 +22,7 @@ module Codesake
       when NONE
         engine = Codesake::Engine::Generic.new(filename)
       when JSP
-        engine = Codesake::Engine::Jsp.new(filename)
+        engine = Codesake::Engine::Jsp.new(filename, options)
       end
       engine
     end
