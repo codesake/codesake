@@ -42,11 +42,11 @@ describe Codesake::Kernel do
   # Engine choosing tests
 
   it "chooses Codesake::Engine::Text for a text file" do
-    @kernel.choose_engine("a_text_file").class.should   == Codesake::Engine::Text
+    @kernel.choose_engine("a_text_file", {}).class.should   == Codesake::Engine::Text
   end
 
   it "chooses Codesake::Engine::Jsp for a jsp file" do
-    @kernel.choose_engine("test.jsp").class.should  == Codesake::Engine::Jsp
+    @kernel.choose_engine("test.jsp", {}).class.should  == Codesake::Engine::Jsp
   end
 
   it "chooses Codesake::Engine::Java for a java file"

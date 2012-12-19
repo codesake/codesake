@@ -99,3 +99,66 @@ EOS
     f.write(lorem_ipsum)
   end
 end
+
+Given /^the jsp file "(.*?)" with cookies does exist$/ do |file|
+
+jsp_content =<<EOS
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@page import="com.codesake.test"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" type="text/CSS" href="<%=request.getContextPath()%>/css/style.css" />
+<title>Hello World</title>
+
+<script type="text/javascript">
+	function confirmSubmit(name) {
+		return alert("test here'"+ cacheName +"'");
+	}
+	
+	</script>
+	
+</head>
+<body>
+
+<div id="header">
+<h1>Hello World</h1>
+
+<a href="<%=request.getContextPath()%>/jsp/link1.jsp">Link 1</a>
+<a href="<%=request.getContextPath()%>/jsp/link2.jsp">Link 2</a>
+<a href="<%=request.getContextPath()%>/jsp/link3.jsp">Link 3</a>
+<a href="<%=request.getContextPath()%>/jsp/link4.jsp">Link 4</a>
+<a href="<%=request.getContextPath()%>/servlet">servlet</a>
+</div>
+
+<%
+ String message = (String) request.getAttribute("message");
+ if(message != null)
+ {
+%>
+<h4 id="message"><%=message%></h4>
+<% }
+else
+{
+ %>
+ <h4 id="message"></h4>
+<% } %>
+<div id="content">
+<form action="<%=request.getContextPath()%>/postHandler" method="post">
+<label for="message">message:</label>
+<input type="text" name="message" id="message" size="40" value="<%=request.getLocalName()%>"  />
+<input type="submit" value="submit" onclick="javascript: return confirmSubmit('Clienti');" />
+</form>
+</div>
+<%
+    Cookie c = new Cookie("name", "a_value")
+    Cookie cc = new Cookie("second", 12)
+%>
+</body>
+EOS
+  File.open(file, "w") do |f|
+    f.write(jsp_content)
+  end
+end

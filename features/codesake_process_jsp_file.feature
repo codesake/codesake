@@ -76,6 +76,13 @@ Feature: codesake process a jsp page
     When I successfully run `bundle exec codesake /tmp/existing.jsp --confirmed-vulnerabilities` 
     Then the stdout should contain "reflected xss found: "message" (/tmp/existing.jsp@36)"
 
+  Scenario: codesake processing the file finds cookies that are created by the page
+    Given the jsp file "/tmp/existing.jsp" with cookies does exist
+    When I successfully run `bundle exec codesake /tmp/existing.jsp` 
+    Then the stdout should contain "cookie \"name\" found with value: \"a_value\" (/tmp/existing.jsp@51)"
+    And the stdout should contain "cookie \"second\" found with value: \"12\" (/tmp/existing.jsp@52)"
+
+
 
 
  

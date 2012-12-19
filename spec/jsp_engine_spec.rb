@@ -50,6 +50,10 @@ else
 <input type="submit" value="submit" onclick="javascript: return confirmSubmit('Clienti');" />
 </form>
 </div>
+<%
+    Cookie c = new Cookie("name", "a_value")
+    Cookie cc = new Cookie("second", 12)
+%>
 </body>
 EOS
 
@@ -58,7 +62,7 @@ describe Codesake::Engine::Jsp do
     File.open("test.jsp", "w") do |f|
       f.write(jsp_content)
     end
-    @jsp = Codesake::Engine::Jsp.new("test.jsp")
+    @jsp = Codesake::Engine::Jsp.new("test.jsp", {})
     @jsp.analyse
   end
 
@@ -81,11 +85,11 @@ describe Codesake::Engine::Jsp do
   end
 
   it "analyses a jsp file for attack entrypoints" do
-    expexted_result = [{:line=>32, :param=>"message", :var=>"message"}]
-    @jsp.attack_entrypoints.should == expexted_result
+    expected_result = [{:line=>32, :param=>"message", :var=>"message"}]
+    @jsp.attack_entrypoints.should == expected_result
   end
   it "analyses a jsp file for reflected variables" do
-    expexted_result = [{:line=>8, :var=>"request.getContextPath()", :false_positive=>true}, 
+    expected_result = [{:line=>8, :var=>"request.getContextPath()", :false_positive=>true}, 
       {:line=>24, :var=>"request.getContextPath()", :false_positive=>true},
       {:line=>25, :var=>"request.getContextPath()", :false_positive=>true},
       {:line=>26, :var=>"request.getContextPath()", :false_positive=>true},
@@ -95,8 +99,13 @@ describe Codesake::Engine::Jsp do
       {:line=>44, :var=>"request.getContextPath()", :false_positive=>true},
       {:line=>46, :var=>"request.getLocalName()", :false_positive=>true}
     ]
-    @jsp.reflected_xss.should == expexted_result
+    @jsp.reflected_xss.should == expected_result
   end
+
+ it "analyses a jsp file for cookies" do
+   expected_result = [{:line=>51, :name=>"name", :value=>"a_value", :var=>"c"}, {:line=>52, :name=>"second", :value=>"12", :var=>"cc"}]
+   @jsp.cookies.should == expected_result
+ end 
 
 
  

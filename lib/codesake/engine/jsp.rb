@@ -13,6 +13,7 @@ module Codesake
       attr_reader :imports
       attr_reader :attack_entrypoints
       attr_reader :reflected_xss
+      attr_reader :cookies
 
       def initialize(filename, options)
         @filename = filename
@@ -28,6 +29,7 @@ module Codesake
         @imports            = find_imports
         @attack_entrypoints = find_attack_entrypoints
         @reflected_xss      = find_reflected_xss
+        @cookies            = find_cookies
 
         @reserved_keywords.each do |secret|
           ret << "reserved keyword found: \"#{secret[:matcher]}\" (#{@filename}@#{secret[:line]})"
@@ -42,6 +44,10 @@ module Codesake
         @reflected_xss.each do |entry|
           ret << "suspicious reflected xss found: \"#{entry[:var]}\" (#{@filename}@#{entry[:line]})\"" if entry[:false_positive] and @options[:vulnerabilities] == :all
           ret << "reflected xss found: \"#{entry[:var]}\" (#{@filename}@#{entry[:line]})\"" if ! entry[:false_positive] 
+        end
+
+        @cookies.each do |c|
+          ret << "cookie \"#{c[:name]}\" found with value: \"#{c[:value]}\" (#{@filename}@#{c[:line]})" 
         end
 
          
@@ -65,6 +71,27 @@ module Codesake
 
         ret
       end
+
+      def find_cookies
+        ret = []
+
+        @file_content.each_with_index do |l, i|
+          l = l.unpack("C*").pack("U*")
+          m = /Cookie (.*?) = new Cookie \("(.*?)",(.*?)\)/.match(l);
+          ret << {:line => i+1, :var => m[1].trim, :name => m[2].trim.gsub("\"", ""), :value => m[3].trim.gsub("\"", "")} unless m.nil?
+
+          m = /Cookie (.*?) = new Cookie\("(.*?)",(.*?)\)/.match(l);
+          ret << {:line => i+1, :var => m[1].trim, :name => m[2].trim.gsub("\"", ""), :value => m[3].trim.gsub("\"", "")} unless m.nil?
+
+
+          m = /(.*?) = new Cookie \("(.*?)",(.*?)\)/.match(l);
+          ret << {:line => i+1, :var => m[1].trim, :name => m[2].trim.gsub("\"", ""), :value => m[3].trim.gsub("\"", "")} unless m.nil?
+
+
+        end
+        ret
+      end
+
 
 
       def find_reflected_xss
