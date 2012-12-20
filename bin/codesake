@@ -6,12 +6,13 @@ require 'rainbow'
 
 trap("INT") { puts '['+'INTERRUPTED'.color(:red)+']'; exit -1 }
 
-puts "codesake v#{Codesake::VERSION} - (C) 2012 - paolo@armoredcode.com".color(:white)
 
 cli = Codesake::Cli.new
 kernel = Codesake::Kernel.instance
 
 options=cli.parse(ARGV)
+puts "codesake v#{Codesake::VERSION} - (C) 2012 - paolo@armoredcode.com".color(:white) unless options[:version]
+abort("codesake v#{Codesake::VERSION}") if options[:version]
 abort("codesake: #{cli.error_message}".color(:red)) if cli.has_errors?
 abort("codesake: missing targets".color(:red)) if cli.targets.nil?
 

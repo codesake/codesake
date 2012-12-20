@@ -13,14 +13,7 @@ describe "codesake command line interface" do
     @cli.parse("").should     == {:vulnerabilities=>:all}
   end
 
-  it "understands --help flag" do
-    @cli.parse("-h").should ==  {:help=>true, :vulnerabilities=>:all}
-    @cli.parse("--help").should ==  {:help=>true, :vulnerabilities=>:all}
-  end 
-  it "undestands malformed flag" do 
-    @cli.parse("-help").should == {:error=>true, :message=>"invalid option: -elp"}
-  end
-
+  
   it "understands --version flag" do
     @cli.parse("--version").should == {:version=>true, :vulnerabilities=>:all}
   end
