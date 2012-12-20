@@ -23,7 +23,24 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+To run codesake over a single file or a directory you simply specify the target
+name as parameter on command line.
+
+If you want to review a ruby source file named file1.rb, your command line will
+be:
+
+  $ codesake file1.rb
+
+
+## Known limitations
+
+Known limitation for version 0.1x are:
+
+* Only JSP, Plain text files are analysed
+* If target is a directory or a glob file expression codesake will understand
+  it but it doesn't expand the file list
+* codesake will use only stdout, stderr for output purposes
+
 
 ## Contributing
 

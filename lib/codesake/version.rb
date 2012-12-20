@@ -1,3 +1,4 @@
 module Codesake
-  VERSION = "0.10.0"
+  VERSION   = "0.15.0"
+  CODENAME  = "BluePint"
 end
