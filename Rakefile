@@ -21,11 +21,11 @@ namespace :engine do
   task :new, :name do |n, args|
     raise "You must provide a programming language in order to create an engine" if n.nil?
 
-    name = n.downcase
+    name = args[:name].downcase
     puts "Creating directories for #{name}"
-    mkdir_p spec
-    mkdir_p lib/codesake/engine
-    mkdir_p lib/codesake/engine/name
+    mkdir_p "spec"
+    mkdir_p "lib/codesake/engine"
+    mkdir_p "lib/codesake/engine/#{name}"
 
     file = "lib/codesake/engine/#{name}"
     if File.exist?(file)
