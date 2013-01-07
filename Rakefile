@@ -70,7 +70,7 @@ namespace :engine do
     open(file, "w") do |spec|
       spec.puts "require 'spec_helper'"
       spec.puts ""
-      spec.puts "describe Codesake::Engine::#{name.capitalize}"
+      spec.puts "describe Codesake::Engine::#{name.capitalize} do"
       spec.puts " it \"tests must be written\""
       spec.puts "end"
     end
