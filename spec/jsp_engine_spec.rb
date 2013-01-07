@@ -106,9 +106,4 @@ describe Codesake::Engine::Jsp do
    expected_result = [{:line=>51, :name=>"name", :value=>"a_value", :var=>"c"}, {:line=>52, :name=>"second", :value=>"12", :var=>"cc"}]
    @jsp.cookies.should == expected_result
  end 
-
-
- 
-
-
 end
