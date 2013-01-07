@@ -1,4 +1,6 @@
 require "bundler/gem_tasks"
+require "bundler/setup"
+require "stringex"
 require "rspec/core/rake_task"
 
 require 'cucumber'

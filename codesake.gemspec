@@ -25,5 +25,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency('tomdoc')
   gem.add_development_dependency('rspec')
   gem.add_development_dependency('aruba')
+  gem.add_development_dependency('stringex')
   gem.add_development_dependency('simplecov')
 end
