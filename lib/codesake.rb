@@ -8,3 +8,4 @@ require "codesake/engine/generic"
 require "codesake/engine/core"
 require "codesake/engine/jsp"
 
+require "codesake/engine/java"

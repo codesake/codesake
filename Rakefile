@@ -1,7 +1,6 @@
 require "bundler/gem_tasks"
-require "bundler/setup"
-require "stringex"
 require "rspec/core/rake_task"
+require "highline/import"
 
 require 'cucumber'
 require 'cucumber/rake/task'
@@ -29,9 +28,9 @@ namespace :engine do
     mkdir_p "lib/codesake/engine"
     mkdir_p "lib/codesake/engine/#{name}"
 
-    file = "lib/codesake/engine/#{name}"
+    file = "lib/codesake/engine/#{name}.rb"
     if File.exist?(file)
-      abort("rake aborted!") if ask("#{file} already exists. Do you want to overwrite?", ['y', 'n']) == 'n'
+      abort("rake aborted!") if ask("#{file} already exists. Do you want to overwrite (y,n)?", ['y', 'n']) == 'n'
     end
 
     open(file, "w") do |engine|
